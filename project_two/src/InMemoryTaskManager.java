@@ -254,6 +254,8 @@ public class InMemoryTaskManager implements TaskManager {
                     getTask(a, id);
                 }
                 case "4" -> {
+                    int hours;
+                    int minutes;
                     String name;
                     String description;
                     String action;
@@ -266,15 +268,21 @@ public class InMemoryTaskManager implements TaskManager {
                     description = v.nextLine();
                     System.out.println("action: ");
                     action = v.nextLine();
+                    System.out.println("Give me information about task's duration (hours, minutes");
+                    System.out.println("--------------------Hours--------------------");
+                    hours = v.nextInt();
+                    v.nextLine();
+                    System.out.println("--------------------Minutes--------------------");
+                    minutes = v.nextInt();
                     switch (a) {
-                        case 1 -> createTask(new Task(name, description, action));
-                        case 2 -> createEpic(new Epic(name, description, action));
+                        case 1 -> createTask(new Task(name, description, action, hours, minutes));
+                        case 2 -> createEpic(new Epic(name, description, action, hours, minutes));
                         case 3 -> {
                             System.out.println("PICK EPIC");
                             giveListOfTasks(2);
                             id = v.nextInt();
                             v.nextLine();
-                            createSubTask(new Subtask(name, description, action), id);
+                            createSubTask(new Subtask(name, description, action, hours, minutes), id);
                         }
                     }
                 }
