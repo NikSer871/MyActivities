@@ -19,6 +19,10 @@ public class Task {
     Epic epic;
     int id;
 
+    Task() {
+
+    }
+
     Task(String name, String description, String action, int hours, int minutes) {
         this.name = name;
         this.description = description;

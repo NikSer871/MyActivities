@@ -123,6 +123,16 @@ public class InMemoryTaskManager implements TaskManager {
         dataEpics.get(i).subtasks.add(a);
         a.epic = dataEpics.get(i);
         dataSubTasks.put(id++, a);
+        if (a.epic.subtasks.size() == 0) {
+            a.epic.setStartTime(a.getStartTime());
+            a.epic.setDuration(a.getDuration());
+        }
+        if (a.epic.getStartTime().isAfter(a.getStartTime())) {
+            a.epic.setStartTime(a.getStartTime());
+        }
+        a.epic.setDuration(a.epic.getDuration().plusHours(a.getDuration().getHour()).
+                plusMinutes(a.getDuration().getMinute()));
+        a.epic.setEndFullTime(a.getEndTime());
         System.out.println(a.epic.subtasks.size());
 
     }
@@ -151,6 +161,11 @@ public class InMemoryTaskManager implements TaskManager {
         a.action = Conditions.DONE.toString();
         dataSubTasks.put(a.id, a);
         a.epic.subtasks.remove(a);
+        if (a.epic.subtasks.size() == 0) {
+            a.epic.status = Conditions.DONE.toString();
+        } else {
+            a.epic.status = Conditions.IN_PROGRESS.toString();
+        }
     }
 
     @Override
@@ -268,7 +283,7 @@ public class InMemoryTaskManager implements TaskManager {
                     description = v.nextLine();
                     System.out.println("action: ");
                     action = v.nextLine();
-                    System.out.println("Give me information about task's duration (hours, minutes");
+                    System.out.println("Give me information about task's duration (hours, minutes"); // WARMING!!! FOR EPIC
                     System.out.println("--------------------Hours--------------------");
                     hours = v.nextInt();
                     v.nextLine();
@@ -276,7 +291,7 @@ public class InMemoryTaskManager implements TaskManager {
                     minutes = v.nextInt();
                     switch (a) {
                         case 1 -> createTask(new Task(name, description, action, hours, minutes));
-                        case 2 -> createEpic(new Epic(name, description, action, hours, minutes));
+                        case 2 -> createEpic(new Epic(name, description, action));
                         case 3 -> {
                             System.out.println("PICK EPIC");
                             giveListOfTasks(2);

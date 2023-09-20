@@ -135,8 +135,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     }
                     case "EPIC" -> {
                         id = Integer.parseInt(str[0]);
-                        super.createEpic(new Epic(str[2], str[5], str[4], Integer.parseInt(duration[0]),
-                                Integer.parseInt(duration[1])));
+                        super.createEpic(new Epic(str[2], str[5], str[4]));
                         dataEpics.get(id - 1).status = str[3];
                         dataTasks.get(id - 1).setStartTime(LocalDateTime.of(
                                 Integer.parseInt(tokenizer.nextToken()), Integer.parseInt(tokenizer.nextToken()),
